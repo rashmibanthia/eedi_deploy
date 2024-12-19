@@ -1,1 +1,3 @@
 deploy_assets/
+!deploy_assets/train_formatted_sample.csv
+test.ipynb
