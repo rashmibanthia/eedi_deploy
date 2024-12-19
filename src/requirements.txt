@@ -1,0 +1,7 @@
+modal
+uvicorn
+starlette
+fastapi
+pydantic
+torch
+transformers==4.46.1
