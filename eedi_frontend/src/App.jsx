@@ -48,7 +48,7 @@ function App() {
           EEDI - Math Misconceptions Analyzer
         </h1>
         <div className="text-center text-sm text-gray-600 mb-8">
-          EEDI Kaggle Competition (Rank 13th) ➡️ Team - Nicholas, Abdullah, Benedikt, Rashmi
+          EEDI Kaggle Competition (Rank 13th) ➡️ Team - Abdullah, Benedikt, Nicholas, Rashmi
         </div>
         <QuestionForm onSubmit={handleFormSubmit} />
         <div className="mt-8">
