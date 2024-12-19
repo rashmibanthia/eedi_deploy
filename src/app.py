@@ -2,6 +2,9 @@ import os, sys, modal
 from modal import Image, Mount, App, asgi_app, Volume
 from fastapi.staticfiles import StaticFiles
 
+# Set environment variable for Modal
+os.environ['MODAL_ENVIRONMENT'] = 'true'
+
 # Add the current directory to Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 

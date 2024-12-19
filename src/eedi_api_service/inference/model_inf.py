@@ -17,25 +17,56 @@ from torch import Tensor
 import torch.nn.functional as F
 from peft import LoraConfig, get_peft_model
 
+
+from pathlib import Path
+import os
+
+class PathConfig:
+    def __init__(self):
+        self.is_modal = os.environ.get('MODAL_ENVIRONMENT') == 'true'
+        
+        if self.is_modal:
+            # Modal paths
+            self.base_model_path = "/root/cache/models/base/qwen2.5_14b_instruct"
+            self.lora_path = "/root/cache/models/adapters/qwen2.5_14b/eedi-qwen14b-emb-adapter-exp16/adapter.bin"
+            self.embeddings_path = "/root/cache/embeddings/qwen2.5_14b_exp16/misconception_embs_qwen14b_exp16.joblib"
+            self.train_csv = "/root/cache/data/train_formatted.csv"
+            self.mm_csv = "/root/cache/data/misconception_mapping.csv"
+        else:
+            # Local development paths
+            base_dir = Path(__file__).parent.parent.parent.parent
+            self.base_model_path = str(base_dir / "models/qwen2.5-14/")
+            self.lora_path = str(base_dir / "models/qwen2.5-14b-it-lora/lora_weights/adapter.bin")
+            self.embeddings_path = str(base_dir / "assets/misconception_embs_qwen14b_exp16.joblib")
+            self.train_csv = str(base_dir / "input/folds/train_formatted.csv")
+            self.mm_csv = str(base_dir / "input/misconception_mapping.csv")
+
+paths = PathConfig()
+
+
 config = SimpleNamespace()
 
 config.top_k = 101
 config.comp_dir  = ""
 
-config.qwen14b_base_model_path = "/root/cache/models/base/qwen2.5_14b_instruct"
-# /root/cache/models/base/qwen2.5_14b_instruct
 
-config.qwen14b_lora_path = "/root/cache/models/adapters/qwen2.5_14b/eedi-qwen14b-emb-adapter-exp16/adapter.bin"  #"/kaggle/input/qwen14b-emb-exp16/pytorch/1/1"
-# /root/cache/models/adapters/qwen2.5_14b/eedi-qwen14b-emb-adapter-exp16/adapter.bin
+config.qwen14b_base_model_path = paths.base_model_path
+config.qwen14b_lora_path = paths.lora_path 
+config.doc_embeddings_path = paths.embeddings_path
+TRAIN_FORMATTED_CSV = paths.train_csv
+MM_CSV = paths.mm_csv
 
-config.doc_embeddings_path = "/root/cache/embeddings/qwen2.5_14b_exp16/misconception_embs_qwen14b_exp16.joblib"
-# /root/cache/embeddings/qwen2.5_14b_exp16/misconception_embs_qwen14b_exp16.joblib
 
-TRAIN_FORMATTED_CSV = "/root/cache/data/train_formatted.csv"
-# /root/cache/data/train_formatted.csv  
-
-MM_CSV = "/root/cache/data/misconception_mapping.csv"
-# /root/cache/data/misconception_mapping.csv
+# config.qwen14b_base_model_path = "/root/cache/models/base/qwen2.5_14b_instruct"
+# # /root/cache/models/base/qwen2.5_14b_instruct
+# config.qwen14b_lora_path = "/root/cache/models/adapters/qwen2.5_14b/eedi-qwen14b-emb-adapter-exp16/adapter.bin"  #"/kaggle/input/qwen14b-emb-exp16/pytorch/1/1"
+# # /root/cache/models/adapters/qwen2.5_14b/eedi-qwen14b-emb-adapter-exp16/adapter.bin
+# config.doc_embeddings_path = "/root/cache/embeddings/qwen2.5_14b_exp16/misconception_embs_qwen14b_exp16.joblib"
+# # /root/cache/embeddings/qwen2.5_14b_exp16/misconception_embs_qwen14b_exp16.joblib
+# TRAIN_FORMATTED_CSV = "/root/cache/data/train_formatted.csv"
+# # /root/cache/data/train_formatted.csv  
+# MM_CSV = "/root/cache/data/misconception_mapping.csv"
+# # /root/cache/data/misconception_mapping.csv
 
 
 with open("config.json", "w") as f:
