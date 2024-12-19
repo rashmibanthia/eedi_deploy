@@ -44,7 +44,7 @@ To run this following data/models are required:
 (5) `train_formatted.csv` - A sample of this file is provided in `deploy_assets/train_formatted_sample.csv`
 
 ---
-If you have any questions, please feel free to reach out !
+If you have any questions, please feel free to [reach out](https://www.kaggle.com/rashmibanthia) !
 
 
 
