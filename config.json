@@ -1,0 +1,1 @@
+{"top_k": 101, "comp_dir": "", "qwen14b_base_model_path": "/home/rashmi/Documents/kaggle/eedi_deploy/deploy_assets/qwen2.5-14", "qwen14b_lora_path": "/home/rashmi/Documents/kaggle/eedi_deploy/deploy_assets/qwen2.5-14b-it-lora/lora_weights/adapter.bin", "doc_embeddings_path": "/home/rashmi/Documents/kaggle/eedi_deploy/deploy_assets/misconception_embs_qwen14b_exp16.joblib"}

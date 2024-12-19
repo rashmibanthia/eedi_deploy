@@ -1,4 +1,8 @@
-function MisconceptionResults({ misconceptions }) {
+interface MisconceptionResultsProps {
+  misconceptions: string[];
+}
+
+const MisconceptionResults: React.FC<MisconceptionResultsProps> = ({ misconceptions }) => {
   if (!misconceptions || misconceptions.length === 0) {
     return null;
   }
@@ -20,4 +24,4 @@ function MisconceptionResults({ misconceptions }) {
   );
 }
 
-export default MisconceptionResults; 
+export default MisconceptionResults;

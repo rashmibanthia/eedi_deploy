@@ -56,6 +56,12 @@ def create_app():
             
             print(f"Reading CSV from: {file_path}")  # Debug print
             
+            if not file_path.exists():
+                raise HTTPException(
+                    status_code=404, 
+                    detail=f"CSV file not found at {file_path}"
+                )
+            
             df = pd.read_csv(file_path)
             unique_subjects = sorted(df['SubjectName'].unique().tolist())
             unique_constructs = sorted(df['ConstructName'].unique().tolist())
@@ -65,6 +71,7 @@ def create_app():
                 "constructs": unique_constructs
             })
         except Exception as e:
+            print(f"Error in get_subjects_and_constructs: {str(e)}")  # Add debug print
             raise HTTPException(status_code=500, detail=str(e))
 
     return app

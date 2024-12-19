@@ -1,11 +1,35 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Listbox } from '@headlessui/react';
-import { loadSubjectsAndConstructs } from '../utils/dataProcessor';
+import { loadSubjectsAndConstructs } from '../utils/dataProcessor.ts';
+
+interface FormData {
+  question: string;
+  correctAnswer: string;
+  incorrectAnswer: string;
+  subject: string;
+  topic: string;
+}
+
+interface AvailableOptions {
+  subjects: string[];
+  constructs: string[];
+}
+
+interface QuestionFormProps {
+  onSubmit: (data: FormData) => void;
+}
+
+interface SelectDropdownProps {
+  label: string;
+  options: string[];
+  value: string;
+  onChange: (value: string) => void;
+}
 
 
 
-function QuestionForm({ onSubmit }) {
-  const [formData, setFormData] = useState({
+function QuestionForm({ onSubmit }: QuestionFormProps) {
+  const [formData, setFormData] = useState<FormData>({
     question: '',
     correctAnswer: '',
     incorrectAnswer: '',
@@ -13,14 +37,15 @@ function QuestionForm({ onSubmit }) {
     topic: ''
   });
   
-  const [availableOptions, setAvailableOptions] = useState({
+  const [availableOptions, setAvailableOptions] = useState<AvailableOptions>({
     subjects: [],
     constructs: []
   });
 
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
+  
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -32,7 +57,7 @@ function QuestionForm({ onSubmit }) {
         }
         setAvailableOptions(data);
       } catch (error) {
-        setError(error.message);
+        setError(error instanceof Error ? error.message : 'An error occurred');
       } finally {
         setLoading(false);
       }
@@ -57,12 +82,12 @@ function QuestionForm({ onSubmit }) {
     );
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(formData);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prevData => ({
       ...prevData,
@@ -71,7 +96,7 @@ function QuestionForm({ onSubmit }) {
   };
 
   // Reusable dropdown component
-  const SelectDropdown = ({ label, options, value, onChange }) => (
+  const SelectDropdown: React.FC<SelectDropdownProps> = ({ label, options, value, onChange }) => (
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-2">
         {label}
@@ -126,7 +151,7 @@ function QuestionForm({ onSubmit }) {
             value={formData.question}
             onChange={handleChange}
             className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            rows="2"
+            rows={2}
             required
           />
         </div>
