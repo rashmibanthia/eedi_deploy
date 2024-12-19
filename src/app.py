@@ -2,11 +2,9 @@ import os, sys, modal
 from modal import Image, Mount, App, asgi_app, Volume
 from fastapi.staticfiles import StaticFiles
 
-# Set environment variable for Modal
-os.environ['MODAL_ENVIRONMENT'] = 'true'
-
 # Add the current directory to Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 
 # Use existing volume
 models_volume = Volume.from_name("eedi_data_models")
@@ -37,6 +35,7 @@ backend_mount = Mount.from_local_dir(
     ".", 
     remote_path="/app/backend"
 )
+
 
 @app.function(
     image=image, 

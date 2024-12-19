@@ -21,16 +21,18 @@ from peft import LoraConfig, get_peft_model
 from pathlib import Path
 import os
 
+
 class PathConfig:
     def __init__(self):
-        self.is_modal = os.environ.get('MODAL_ENVIRONMENT') == 'true'
-        
-        if self.is_modal:
-            # Production paths
-            base_dir = Path("/root/cache/data")
-        else:
-            # Local development paths
-            base_dir = Path(__file__).parent.parent.parent.parent / "deploy_assets"
+        base_dir = Path("/root/cache/data")
+        self.is_modal = True
+
+        # if os.environ.get('MODAL_ENVIRONMENT1'):
+        #     # Production paths
+        #     base_dir = Path("/root/cache/data")
+        # else:
+        #     # Local development paths
+        #     base_dir = Path(__file__).parent.parent.parent.parent / "deploy_assets"
 
         print("base_dir from model_inf.py") 
         print(base_dir)    
@@ -68,18 +70,6 @@ config.qwen14b_lora_path = paths.lora_path
 config.doc_embeddings_path = paths.embeddings_path
 TRAIN_FORMATTED_CSV = paths.train_csv
 MM_CSV = paths.mm_csv
-
-
-# config.qwen14b_base_model_path = "/root/cache/models/base/qwen2.5_14b_instruct"
-# # /root/cache/models/base/qwen2.5_14b_instruct
-# config.qwen14b_lora_path = "/root/cache/models/adapters/qwen2.5_14b/eedi-qwen14b-emb-adapter-exp16/adapter.bin"  #"/kaggle/input/qwen14b-emb-exp16/pytorch/1/1"
-# # /root/cache/models/adapters/qwen2.5_14b/eedi-qwen14b-emb-adapter-exp16/adapter.bin
-# config.doc_embeddings_path = "/root/cache/embeddings/qwen2.5_14b_exp16/misconception_embs_qwen14b_exp16.joblib"
-# # /root/cache/embeddings/qwen2.5_14b_exp16/misconception_embs_qwen14b_exp16.joblib
-# TRAIN_FORMATTED_CSV = "/root/cache/data/train_formatted.csv"
-# # /root/cache/data/train_formatted.csv  
-# MM_CSV = "/root/cache/data/misconception_mapping.csv"
-# # /root/cache/data/misconception_mapping.csv
 
 
 with open("config.json", "w") as f:
