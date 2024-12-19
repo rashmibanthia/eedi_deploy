@@ -170,3 +170,8 @@ export default defineConfig({
 This way:
 - Development API calls: `http://localhost:8000/api/*`
 - Production API calls: `https://rashmibanthia--eedi-misconception-analyzer.modal.run/api/*`
+---
+
+export PYTHONPATH=$PYTHONPATH:/Users/rashmi/Documents/kaggle/eedi/eedi_deploy/src
+export PYTHONPATH=$PYTHONPATH:/home/rashmi/Documents/kaggle/eedi_deploy/src
+uvicorn src.eedi_api_service.create_app:create_app --reload

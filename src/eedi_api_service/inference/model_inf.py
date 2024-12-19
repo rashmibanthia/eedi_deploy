@@ -26,6 +26,16 @@ class PathConfig:
         self.is_modal = os.environ.get('MODAL_ENVIRONMENT') == 'true'
         
         if self.is_modal:
+            # Production paths
+            base_dir = Path("/root/cache/data")
+        else:
+            # Local development paths
+            base_dir = Path(__file__).parent.parent.parent.parent / "deploy_assets"
+
+        print("base_dir from model_inf.py") 
+        print(base_dir)    
+        
+        if self.is_modal:
             # Modal paths
             self.base_model_path = "/root/cache/models/base/qwen2.5_14b_instruct"
             self.lora_path = "/root/cache/models/adapters/qwen2.5_14b/eedi-qwen14b-emb-adapter-exp16/adapter.bin"
@@ -35,11 +45,14 @@ class PathConfig:
         else:
             # Local development paths
             base_dir = Path(__file__).parent.parent.parent.parent
-            self.base_model_path = str(base_dir / "models/qwen2.5-14/")
-            self.lora_path = str(base_dir / "models/qwen2.5-14b-it-lora/lora_weights/adapter.bin")
-            self.embeddings_path = str(base_dir / "assets/misconception_embs_qwen14b_exp16.joblib")
-            self.train_csv = str(base_dir / "input/folds/train_formatted.csv")
-            self.mm_csv = str(base_dir / "input/misconception_mapping.csv")
+            # print("base_dir from model_inf.py") 
+            # print(base_dir) # /home/rashmi/Documents/kaggle/eedi_deploy
+            self.base_model_path = str(base_dir / "deploy_assets/qwen2.5-14")
+            self.lora_path = str(base_dir / "deploy_assets/qwen2.5-14b-it-lora/lora_weights/adapter.bin")
+            self.embeddings_path = str(base_dir / "deploy_assets/misconception_embs_qwen14b_exp16.joblib")
+            self.train_csv = str(base_dir / "deploy_assets/train_formatted.csv")
+            self.mm_csv = str(base_dir / "deploy_assets/misconception_mapping.csv")
+
 
 paths = PathConfig()
 

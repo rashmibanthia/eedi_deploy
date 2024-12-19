@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 import pandas as pd
 import os
+from pathlib import Path
 
 from eedi_api_service.inference.model_inf import analyze_misconception
 
@@ -43,7 +44,19 @@ def create_app():
     @app.get("/api/subjects-and-constructs")
     async def get_subjects_and_constructs():
         try:
-            df = pd.read_csv("/root/cache/data/train_formatted.csv")
+            # Determine environment and set path accordingly
+            is_modal = os.environ.get('MODAL_ENVIRONMENT') == 'true'
+            
+            if is_modal:
+                # Production path
+                file_path = Path("/root/cache/data/train_formatted.csv")
+            else:
+                # Local development path
+                file_path = Path(__file__).parent.parent.parent / "deploy_assets" / "train_formatted.csv"
+            
+            print(f"Reading CSV from: {file_path}")  # Debug print
+            
+            df = pd.read_csv(file_path)
             unique_subjects = sorted(df['SubjectName'].unique().tolist())
             unique_constructs = sorted(df['ConstructName'].unique().tolist())
             
