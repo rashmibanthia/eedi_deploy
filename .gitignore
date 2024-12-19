@@ -1,3 +1,7 @@
-deploy_assets/
-!deploy_assets/train_formatted_sample.csv
+!train_formatted_sample.csv
+!deploy_assets/.gitkeep
 test.ipynb
+deploy_assets/qwen*
+deploy_assets/*.joblib
+deploy_assets/misconception_mapping.csv
+deploy_assets/train_formatted.csv
