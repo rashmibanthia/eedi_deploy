@@ -5,3 +5,4 @@ deploy_assets/qwen*
 deploy_assets/*.joblib
 deploy_assets/misconception_mapping.csv
 deploy_assets/train_formatted.csv
+.specstory/
